@@ -5,8 +5,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import logo from "../asstes/Ai-Logo.png";
 import navButton from "../asstes/close button.png";
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
-const SidebarContent = () => (
+const SidebarContent = ({ handleNavigation }) => (
   <Box>
     <Box
       sx={{
@@ -38,7 +39,7 @@ const SidebarContent = () => (
     <Box>
       <Box sx={{display:"flex", justifyContent:"center", alignItems:"center", marginTop:"10px"}}>
         <span>
-          <button style={{backgroundColor:"#D7C7F4", border:0, height:"30px", borderRadius:"5px"}}>Past conversations</button>
+          <button onClick={handleNavigation} style={{backgroundColor:"#D7C7F4", border:0, height:"30px", borderRadius:"5px"}}>Past conversations</button>
         </span>
       </Box>
     </Box>
@@ -48,6 +49,7 @@ const SidebarContent = () => (
 const Main = () => {
   //function to open and close sideBar
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleDrawer = (state) => () => {
     setOpen(state);
@@ -57,6 +59,10 @@ const Main = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
+  const handleNavigation=()=>{
+    navigate("/history")
+  }
 
   return (
     <>
@@ -79,7 +85,7 @@ const Main = () => {
             }}
           >
             <Box>
-              <SidebarContent />
+              <SidebarContent handleNavigation={handleNavigation}/>
             </Box>
           </Grid>
 
@@ -102,13 +108,14 @@ const Main = () => {
                   onSubmit={(e) => handleSubmit(e)}
                 >
                   <input
+                    placeholder="Message Bot AI…"
                     style={{ width: "65vw", height: "30px" }}
                     type="text"
                     name=""
                     id=""
                   />
-                  <button>Ask</button>
-                  <button>Save</button>
+                  <button type="submit">Ask</button>
+                  <button type="button">Save</button>
                 </form>
               </Box>
             </Box>
@@ -118,7 +125,7 @@ const Main = () => {
         {/* Mobile Sidebar Drawer */}
         <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
           <Box width="250px" role="presentation" onClick={toggleDrawer(false)}>
-            <SidebarContent />
+            <SidebarContent handleNavigation={handleNavigation} />
           </Box>
         </Drawer>
       </Box>
